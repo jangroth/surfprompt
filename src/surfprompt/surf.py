@@ -48,8 +48,6 @@
 #     return delta.seconds
 
 
-
-
 # class SurfData:
 #     def _data_already_exists(self):
 #         data_file_exists = os.path.isfile(PATH_TO_DATA_FILE)

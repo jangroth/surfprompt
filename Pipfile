@@ -3,16 +3,18 @@ name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
 
-[dev-packages]
-black = "==20.8b1"
-pytest = "*"
-pytest-cov = "*"
-
 [packages]
 arrow = "*"
 importlib-metadata = "==1.7.0"
 pyyaml = "*"
 requests = "*"
+
+[dev-packages]
+black = "==20.8b1"
+pyhamcrest = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-freezegun = "*"
 
 [requires]
 python_version = "3.7"

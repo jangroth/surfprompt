@@ -1,5 +1,8 @@
-from os import path
 from collections import namedtuple
+from datetime import datetime, timedelta, timezone
+from os import path
+
+import requests
 import yaml
 
 PATH_TO_DATA_FILE = path.join("data", "data.json")
@@ -47,15 +50,31 @@ class DataRetriever:
         return config
 
     def _create_api_request(self):
+        now_utc = datetime.now(tz=timezone.utc)
+        a_week_from_now = now_utc + timedelta(days=7)
         result = ApiRequest(
-            "GET",
-            self.config['source']['url'],
-            {},
-            {"Authorization": self.api_key},
+            method="GET",
+            url=self.config["source"]["url"],
+            params={
+                "lat": self.config["spots"][0]["latitude"],
+                "lng": self.config["spots"][0]["longitude"],
+                "params": self.config["source"]["params"],
+                "source": self.config["source"]["sources"],
+                "start": now_utc.timestamp(),
+                "end": a_week_from_now.timestamp(),
+            },
+            headers={"Authorization": self.api_key},
         )
         return result
 
     def _call_api(self):
+        # api_request = self._create_api_request()
+        # response = requests.request(
+        #     method=api_request.method,
+        #     url=api_request.url,
+        #     params=api_request.params,
+
+        # )
         pass
 
     def go(self):
@@ -64,4 +83,4 @@ class DataRetriever:
 
 
 if __name__ == "__main__":
-  DataRetriever()._create_api_request()
+    DataRetriever()._create_api_request()
