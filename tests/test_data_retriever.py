@@ -3,7 +3,7 @@ from os import path
 from unittest.mock import MagicMock, mock_open, patch
 
 from freezegun import freeze_time
-from hamcrest import assert_that, contains_exactly, contains_inanyorder, is_
+from hamcrest import assert_that, is_
 from pytest import fixture, raises
 from src.surfprompt.data_retriever import DataRetriever, InvalidConfigurationException
 
@@ -30,7 +30,8 @@ def default_config():
 
 
 @patch("os.path.isfile", return_value=False)
-def test_should_call_api_if_no_data(mock_isfile, dr):
+def test_should_call_api_if_no_data(mock_isfile, dr, default_config):
+    dr.config = default_config
     dr._call_api = MagicMock()
 
     dr.go()
@@ -42,13 +43,14 @@ def test_should_call_api_if_no_data(mock_isfile, dr):
 def test_should_create_api_request(dr, default_config):
     dr.config = default_config
 
-    result = dr._create_api_request()
+    result = dr._create_api_request("123", default_config["spots"][0])
 
+    assert_that(result.id, is_("123"))
     assert_that(result.method, is_("GET"))
     assert_that(result.url, is_("https://www.test.com"))
     assert_that(
         result.params,
-        contains_inanyorder(
+        is_(
             {
                 "params": ["swellDirection"],
                 "source": ["noaa"],
@@ -60,6 +62,10 @@ def test_should_create_api_request(dr, default_config):
         ),
     )
     assert_that(result.headers, is_({"Authorization": "api_key"}))
+
+
+def test_should_convert_spot_name_to_id(dr):
+    assert_that(dr._spot_name_to_id("Elouera - The Wall"), is_("elouerathewall"))
 
 
 @patch("builtins.open", mock_open(read_data="data"))
