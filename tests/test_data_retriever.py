@@ -1,5 +1,3 @@
-from datetime import datetime
-from os import path
 from unittest.mock import MagicMock, mock_open, patch
 
 from freezegun import freeze_time

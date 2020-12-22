@@ -15,6 +15,7 @@ pyhamcrest = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-freezegun = "*"
+yamllint = "*"
 
 [requires]
 python_version = "3.7"

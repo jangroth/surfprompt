@@ -4,8 +4,8 @@ spots:
     latitude: -34.05
     longitude: 151.15
 source:
-    url: "https://api.stormglass.io/v2/weather/point"
-    sources:
-      - "noaa"
-    params:
-      - "swellDirection"
+  url: "https://api.stormglass.io/v2/weather/point"
+  sources:
+    - "noaa"
+  params:
+    - "swellDirection"
