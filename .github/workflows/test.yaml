@@ -1,0 +1,29 @@
+---
+name: test
+on: [push]
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install pipenv
+        run: |
+          pip3 install --upgrade pip pipenv
+      - name: Install dependencies
+        run: |
+          pipenv install --system --dev
+      - name: So what have we got?
+        run: |
+          pip freeze
+      - name: Run test
+        run: |
+          make test

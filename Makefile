@@ -15,5 +15,5 @@ check: ## Run linters
 	@echo '*** all checks passing ***'
 
 test: check ## Run tests
-	PYTHONPATH=./src pytest --cov=src --cov-branch --cov-report term-missing
+	PYTHONPATH=.:./src pytest --cov=src --cov-branch --cov-report term-missing ./tests
 	@echo '*** all tests passing ***'
